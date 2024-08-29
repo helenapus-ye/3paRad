@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    %sveltekit.head%
+</head>
+<body>
+    <div id="svelte">%sveltekit.body%</div>
+	<div>3 pa rad yey</div>
+		<h1 id="instruksjon"></h1>
+		<button onclick="{startSpill()}">trykk for a starte</button>
+	</div>
+
+	<table>
+		<tr id="rad1">
+			<td id="1.1"></td>
+			<td id="2.1"></td>
+			<td id="3.1"></td>
+		</tr>
+		<tr id="rad1">
+			<td id="1.2"></td>
+			<td id="2.2"></td>
+			<td id="3.2"></td>
+		</tr>
+		<tr id="rad1">
+			<td id="1.2"></td>
+			<td id="2.2"></td>
+			<td id="3.2"></td>
+		</tr>
+	</table>
+
+	
+
+</body>
+
+
+
+</html>
+
+
+<style>
+	#svelte{
+		display: none;
+	}
+
+	table, th, td {
+	  border: 1px solid black;
+	}
+
+	table{
+		width: 50vw;
+		height: 50vw;
+	}
+</style>
+
+<script>
+	function hvemstarter(){
+		let duStarter = Boolean(Math.round(Math.random()));
+		console.log(duStarter)
+	}
+	
+
+	function startSpill(){
+		console.log('nå starter spillet')
+		hvemstarter()
+	}
+</script>
+
+
+
