@@ -13,19 +13,19 @@
 
 	<table>
 		<tr id="rad1">
-			<td id="1.1"></td>
-			<td id="2.1"></td>
-			<td id="3.1"></td>
+			<td id="0"></td>
+			<td id="1"></td>
+			<td id="2"></td>
 		</tr>
 		<tr id="rad1">
-			<td id="1.2"></td>
-			<td id="2.2"></td>
-			<td id="3.2"></td>
+			<td id="3"></td>
+			<td id="4"></td>
+			<td id="5"></td>
 		</tr>
 		<tr id="rad1">
-			<td id="1.2"></td>
-			<td id="2.2"></td>
-			<td id="3.2"></td>
+			<td id="6"></td>
+			<td id="7"></td>
+			<td id="8"></td>
 		</tr>
 	</table>
 
@@ -54,15 +54,114 @@
 </style>
 
 <script>
+	
+
+	let spilletsBrikker = []
+	let dineBrikker = []
+	let ledigeplasser = [0,1,2,3,4,5,6,7,8]
+	let spillespilles = true
+	let dintur = hvemstarter()
+
+
 	function hvemstarter(){
 		let duStarter = Boolean(Math.round(Math.random()));
-		console.log(duStarter)
+		return duStarter
+	}
+
+	function hvorleggebrikke(){
+		let hvorskalbrikkeLegges = Math.round(Math.random() * 8);
+		console.log('brikken skal legges', hvorskalbrikkeLegges)
+		return hvorskalbrikkeLegges
+	}
+
+
+	function spilleleggerbrikke(){
+		let legg = hvorleggebrikke()
+		
+		while (spilletsBrikker.includes(legg) || dineBrikker.includes(legg)){
+			legg = hvorleggebrikke()
+		}
+
+		spilletsBrikker.push(legg) 
+		
+		//ledigeplasser.splice(legg, 1)
+		ledigeplasser = ledigeplasser.filter(function (letter) {
+			return letter !== legg;
+		});
+		console.log("ledig:",ledigeplasser)
+		console.log(spilletsBrikker)
+
+		document.getElementById(legg).style.backgroundColor = 'red';
+
+
+		
+		
+
 	}
 	
+	function duleggerbrikke(){
+		
+		for(let i=0; ledigeplasser.length>=i; i++){
+
+			
+			let rute = document.getElementById(i);
+
+			rute.style.cursor = 'pointer';
+			rute.onclick = function() {
+				console.log('du trykket', rute)
+				dineBrikker.push(i)
+
+				ledigeplasser = ledigeplasser.filter(function (letter) {
+					return letter !== i;
+				});
+
+				console.log("ledig", ledigeplasser)
+				console.log('dine', dineBrikker)
+
+				for(let i=0; ledigeplasser.length>=i; i++){
+					let rute = document.getElementById(i);
+					rute.style.cursor = 'default';
+
+					
+					
+				}
+
+				rute.style.backgroundColor = 'green';
+				
+			};
+
+		}
+
+		
+		
+	}
 
 	function startSpill(){
 		console.log('nå starter spillet')
-		hvemstarter()
+		console.log('din tur', dintur)
+		
+		
+
+			if (dintur==true){
+				console.log('du starter')
+				duleggerbrikke()
+			}
+			
+			else{
+				console.log('spillet starter')
+				spilleleggerbrikke()
+			}
+			
+			if(ledigeplasser.length == 1){
+				spilleSpilles = false
+				console.log('spillet er ferdig')
+			}
+
+			dintur = !dintur
+			
+			
+		
+		
 	}
 </script>
 
