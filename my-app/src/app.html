@@ -8,24 +8,24 @@
     <div id="svelte">%sveltekit.body%</div>
 	<div>3 pa rad yey</div>
 		<h1 id="instruksjon"></h1>
-		<button onclick="{startSpill()}">trykk for a starte</button>
+		<button onclick="{spillEnRunde()}">trykk for a starte</button>
 	</div>
 
 	<table>
 		<tr id="rad1">
-			<td id="0"></td>
-			<td id="1"></td>
-			<td id="2"></td>
-		</tr>
-		<tr id="rad1">
-			<td id="3"></td>
-			<td id="4"></td>
-			<td id="5"></td>
-		</tr>
-		<tr id="rad1">
-			<td id="6"></td>
-			<td id="7"></td>
-			<td id="8"></td>
+			<td id="0" onclick="{brukerTrykket(0)}"></td>
+			<td id="1" onclick="{brukerTrykket(1)}"></td>
+			<td id="2" onclick="{brukerTrykket(2)}"></td>
+		</tr> 
+		<tr id="rad2">
+			<td id="3" onclick="{brukerTrykket(3)}"></td>
+			<td id="4" onclick="{brukerTrykket(4)}"></td>
+			<td id="5" onclick="{brukerTrykket(5)}"></td>
+		</tr> 
+		<tr id="rad3">
+			<td id="6" onclick="{brukerTrykket(6)}"></td>
+			<td id="7" onclick="{brukerTrykket(7)}"></td>
+			<td id="8" onclick="{brukerTrykket(8)}"></td>
 		</tr>
 	</table>
 
@@ -101,10 +101,10 @@
 	
 	function duleggerbrikke(){
 		
-		for(let i=0; ledigeplasser.length>=i; i++){
+		for(let i=0; ledigeplasser.length>i; i++){
 
 			
-			let rute = document.getElementById(i);
+			let rute = document.getElementById(i + "");
 
 			rute.style.cursor = 'pointer';
 			rute.onclick = function() {
@@ -119,7 +119,7 @@
 				console.log('dine', dineBrikker)
 
 				for(let i=0; ledigeplasser.length>=i; i++){
-					let rute = document.getElementById(i);
+					let rute = document.getElementById(i + "");
 					rute.style.cursor = 'default';
 
 					
@@ -136,32 +136,56 @@
 		
 	}
 
-	function startSpill(){
+	function spillEnRunde(){
 		console.log('nå starter spillet')
 		console.log('din tur', dintur)
 		
 		
 
-			if (dintur==true){
-				console.log('du starter')
-				duleggerbrikke()
-			}
-			
-			else{
-				console.log('spillet starter')
-				spilleleggerbrikke()
-			}
-			
-			if(ledigeplasser.length == 1){
-				spilleSpilles = false
-				console.log('spillet er ferdig')
-			}
+		if (dintur==true){
+			console.log('du starter. Venter på at du skal trykke. Sees i onclick() ;D')
+			//duleggerbrikke()
+		}
+	
+		else{
+			console.log('spillet starter')
+			spilleleggerbrikke()
+		}
+		
+		if(ledigeplasser.length < 1){
+			spilleSpilles = false
+			console.log('spillet er ferdig')
+		}
 
-			dintur = !dintur
-			
-			
 		
 		
+
+	}
+	
+
+	
+
+	function brukerTrykket(i){
+
+		
+
+		//Legg en sjekk om du har lov til å trykke?
+
+
+		dineBrikker.push(i)
+		ledigeplasser = ledigeplasser.filter(function (letter) {
+					return letter !== i;
+				});
+
+		let rute = document.getElementById(i + "");
+		rute.style.backgroundColor = 'green';
+		rute.style.cursor = 'none';
+		
+		dintur = false;
+
+		spillEnRunde();
+	
+		// 1: spillEnRunde() => Sjekker
 	}
 </script>
 
